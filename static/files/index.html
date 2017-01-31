@@ -1,3 +1,4 @@
+
 <html>
 
 <head>
@@ -10,7 +11,7 @@
 <body id="root" ng-app="cloudgox" ng-controller="AppController">
 	<div class="ui stackable bar menu">
 		<div class="item">
-			<h2 class="ui header">Cloud Gox</h2>
+			<h2 class="ui header">GoAsm</h2>
 		</div>
 		<div class="right menu">
 			<div class="active green item" ng-if="Connected">Connected</div>
@@ -19,7 +20,7 @@
 			<div class="active teal item" ng-if="Connected && !state.Ready">Compiling</div>
 			<div class="active teal item" ng-if="state.NumQueued > 0">{{ state.NumQueued }} Queued</div>
 			<div class="active blue item">Go {{ config.Version }}</div>
-			<a class="active blue item" href="https://github.com/jpillora/cloud-gox" target="_blank">
+			<a class="active blue item" href="https://github.com/spratt/cloud-gox" target="_blank">
 				<i class="github icon"></i> Fork on Github
 			</a>
 		</div>
@@ -29,54 +30,17 @@
 						<div class="ui compile segment">
 								<form class="ui form" ng-submit="compile()">
 										<div class="field">
-												<label>Package <span class="tip">The target <code>main</code> package to build</span></label>
-												<input type="text" placeholder="github.com/user/pkg" ng-model="package.name">
-										</div>
-										<div class="field" ng-show="showMore">
-												<label>Git Commit-ish <span class="tip">Resets the package repository to a specific commit and sets the <input type="text" class="ldflag" ng-model="package.commitVar"> ld-flag. Click to edit.</span></label>
-												<input type="text" ng-model="package.commitish">
-										</div>
-										<div class="field" ng-show="showMore">
-												<label>Version <span class="tip">Sets the <input type="text" class="ldflag" ng-model="package.versionVar"> ld-flag. Click to edit.</span></label>
-												<input type="text" placeholder="1.0.0" ng-model="package.version">
-										</div>
-										<div class="three fields" ng-show="showMore">
-											<div class="field">
-												<label>Enable CGO</label>
-												<div class="ui checkbox">
-												<input type="checkbox" ng-model="package.cgo">
-												<label></label>
-												</div>
-											</div>
-											<div class="field">
-												<label>Debug Info</label>
-												<div class="ui checkbox">
-												<input type="checkbox" ng-model="package.debugInfo">
-												<label></label>
-												</div>
-											</div>
-											<div class="field">
-												<label>Update Pkgs</label>
-												<div class="ui checkbox">
-												<input type="checkbox" ng-model="package.updatePkgs">
-												<label></label>
-												</div>
-											</div>
-										</div>
-										<div class="field" ng-show="showMore">
-												<label>Platforms</label>
-												<div class="platforms">
-													<div ng-repeat="(osID, os) in package.platforms">
-															<div class="osheader">{{ osID }}</div>
-															<span ng-repeat="(archID, arch) in os" class="ui archbox checkbox" ng-class="{checked: arch }">
-																	<input type="checkbox" id="{{osID}}{{archID}}" ng-model="package.platforms[osID][archID]">
-																	<label for="{{osID}}{{archID}}">{{ archID }}</label>
-															</span>
-													</div>
-												</div>
+<textarea ng-model="source.code">
+package main
+
+import "fmt"
+
+func main() {
+	fmt.Println("Hello, 世界")
+}
+</textarea>
 										</div>
 										<div class="controls">
-												<div class="ui small button" ng-click="showMore = !showMore">{{ showMore && 'Hide' || 'Show' }} more</div>
 												<button class="ui small primary button" type="submit" ng-disabled="loading || !Connected">Compile</button>
 										</div>
 								</form>
@@ -84,13 +48,13 @@
 				</div>
 				<div class="eight wide column">
 						<div class="ui compilations segment">
-								<h5 class="ui header">Compiled binaries</h5>
+								<h5 class="ui header">Assembly</h5>
 
 								<div class="ui icon info message" ng-if="!state.Compilations || state.Compilations.length == 0">
 									<i class="left chevron icon"></i>
 									<div class="content">
-										<div class="header">There are no binaries yet</div>
-										<p>Compiled packages will appear here.</p>
+										<div class="header">There is no assembly yet.</div>
+										<p>Compiled assembly will appear here.</p>
 									</div>
 								</div>
 
@@ -113,7 +77,6 @@
 										<div>
 											<span ng-show="!c.completed" class="timestamp">compiling</span>
 											<span ng-show="c.completed" class="timestamp">compiled {{ ago(c.completedAt) }}</span>
-											<span ng-show="c.commitish"> from commit {{ c.commitish }}</span>
 										</div>
 									</div>
 								</div>
